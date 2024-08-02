@@ -1,0 +1,656 @@
+[]()
+
+## Day 1
+
+- Intro to AWS
+- IAM
+    - Creating New User Profile (Max2)
+    - Giving it console access
+    - Giving certain policies (Alexa, Admin)
+    - Accessing it from new tab
+- EC2 (Ubuntu)
+    - Creating New EC2 instance (Ubuntu)
+    - Installing nginx from user role while creation of EC2 instance
+- CloudWatch instance (CPU utilization, log)
+    - Watching/Monitoring various aspects of EC2 instances
+    - Making log group to monitor logs
+
+## Day 2
+
+- S3
+    - Creating and storing file in bucket
+    - Generating and giving policy to bucket to access it publicly
+    - Hosting a Static Website using S3
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/7060ebe3-e675-461e-a741-21aa142e975e/42ce9a08-5675-4c54-bff1-6409ea9713a3.png)
+        
+- Cloud Front
+    - Create Distribution and add the S3 bucket as Origin Domain
+    - Name the Origin
+    - You can leave Default Cache behavior as is but this option could be ticked for security of viewer
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/cf1fe25e-f823-4202-957a-f3bed4bba943/Untitled.png)
+        
+    - Invalidation (to invalidate the cached website for updating when origin file updates)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a65fa230-6adf-44f8-9f8a-b15a60a7d3b6/Untitled.png)
+        
+- EC2 to S3
+    - Create a file in EC2 instance and Sync it to S3
+    - Creating a Policy to configure AWS CLI without access key
+    - Run command [ `aws s3 sync /sync01/ s3://ec2-to-s3/first/` ] in EC2
+    - Attaching policy to EC2 instance
+- VPC
+    - Making a VPC
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/9a5e8887-ca26-4245-82a0-659f458d71f5/Untitled.png)
+        
+    - Your new VPC is created
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/fa835676-3a89-4184-960b-76930b806bbe/Untitled.png)
+        
+
+## Day 3
+
+- Subnets & Route Table
+    - Create a Subnet and give it the ranges it will reside in on your VPC
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/1a2615ca-4b50-420d-a918-dd1a3faac950/Untitled.png)
+        
+    - Create an internet gateway to give access of traffic through internet
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a9f7c2af-db8f-416c-91a4-ba8a1302de85/Untitled.png)
+        
+    - Private and Public Subnets are routed using route tables
+        
+        ![Screenshot 2024-07-29 170555.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a306aa19-dd96-4e82-88ac-ea85274cb108/Screenshot_2024-07-29_170555.png)
+        
+    - You can configure the routes like this
+        
+        ![Screenshot 2024-07-29 170615.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/2421474d-a330-48f6-8d1c-cd2030b24ca2/Screenshot_2024-07-29_170615.png)
+        
+    - Adding routes to public (0.0.0.0/0) and private (NAT instance & gateway) subnets
+- NAT
+    - Making a NAT EC2 instance to provide internet access to Private EC2 instance through Public EC2
+    - NAT EC2 instance has special AMI (NAT AMI) and configured to all networks (0.0.0.0/0)
+    - In Change Source/Destination Check, check Stop so that NAT instance can request data on its own IP address
+    - NAT EC2 instance is not optimal as the NAT instance has to be running and it runs on t2.micro so small instance
+    - NAT Gateway is a better option as doesn’t have to be kept running all the time it takes care of NATing itself
+    - Create a NAT Gateway and add the route on private route table
+- NACL
+    - Network Access Control List is used to control the access of incoming and outgoing networks (Allow/Deny)
+
+## Day 4
+
+- Revision
+
+## Day 5
+
+- Host Static Website that is within a folder /A/B/
+    - Upload Website in S3 Bucket (/A/B/S3+Static+Website.html)
+    - Create Distribution in CloudFront
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e0881e2b-0e9b-4014-8be6-a34cb45ce52f/Untitled.png)
+        
+    - Copy the CloudFront permission at the bottom of the image and paste in permissions in S3 bucket
+    - When running the distribution domain name add /A/B/S3+Static+Website.html at end to access the html file within the S3 bucket
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/215bc153-be7e-43c5-a203-9cad01ec9479/96894baf-38ed-4e3e-9ba8-d003e152f63a.png)
+        
+
+## Day 6
+
+- AWSome Day
+    - Seminar Hosted by AWS, briefing on the wide variety of tools they have to offer
+
+## Day 7
+
+- Idea discussion for project
+    - Wordpress integration with AWS using EC2
+
+## Day 8
+
+- Wordpress through AWS
+    - Create and launch EC2 instance (Ubuntu)
+    - Access SSH of created instance through MobaXterm
+    - Install apache2 in [sudo apt -get update > sudo apt install apache2]
+    - Install php (because wordpress is built on php) [sudo apt install php libapache2-mod-php php-mysql]
+    - Install SQL server [sudo apt install mysql-server]
+    - Login to SQL server [sudo mysql -u root]
+    - Change authentication plugin to mysql_native_password (change the password) [ALTER USER 'root'@localhost IDENTIFIED WITH mysql_native_password by 'Testpassword@123']
+    - Create a new database user for wordpress [CREATE USER 'wp_newuser'@localhost IDENTIFIED BY 'Testpassword@123';]
+    - Create a database for wordpress [CREATE DATABASE wp;]
+    - Grant all privilges on the database 'wp' [GRANT ALL PRIVILEGES ON wp.* TO 'wp_user'@localhost;]
+    - Download wordpress [cd /tmp > wget https://wordpress.org/latest.tar.gz]
+    - Unzip [tar -xvf latest.tar.gz]
+    - Move wordpress folder to apache root folder [sudo mv wordpress/ /var/www/html]
+    - Configure Database in your ec2 instance ip address open in browser
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/5341eb32-4f11-4d11-8d90-b40d12e0b107/Untitled.png)
+        
+    - Create a config file in wordpress directory by pasting code shown by wordpress
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/620445c2-fad5-40d7-bac0-b420e96a261c/Untitled.png)
+        
+    - Install Wordpress
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/0f9e0f57-6a8a-488c-9173-903f6a8656d2/Untitled.png)
+        
+    - Log in
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/28c61c3a-fc5f-4337-90b6-2ce359e45df4/Untitled.png)
+        
+    - Now to open your website on root ip address instead of ip/wordpress we change config file (add /wordpress in front of /html)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/aa367645-d3c2-458b-abfc-56416c72bb66/Untitled.png)
+        
+    - Restart apache2 server [sudo systemctl restart apache2]
+    - Install certbot to run site on https [sudo apt install certbot python3-certbot-apache]
+
+## Day 9
+
+- Adding Image to Wordpress Blog
+    - Image not being uploaded from Wordpress Console
+    - Update config.php file in wp-content in your wordpress folder in EC2 instance
+    - Insert command in config file [define( 'uploads', 'wp-content/'.'files' );]
+    - The permission to the wordpress directory had to be updated to enable img uploading to the website
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/39518603-ed42-4c7f-8b39-c3df74701a9c/Untitled.png)
+        
+    - Now images are being uploaded onto the website through wordpress editor
+- Site Health
+    - Check Site Health under tools in wordpress console
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/c3e7beea-d565-4062-846b-bef1f8dfaf4d/Untitled.png)
+        
+    - Fix these by running the command in linux [sudo apt install php-curl php-dom php-mbstring php-imagick php-zip php-gd]
+    - Now your Blog/Website is good to go
+- Adding comments section
+    - Enabling some essential settings in settings > discussions
+    - Add comments block in blog editor
+- Showing comments data in database (SQL)
+    - Select Databases [select database();]
+    - Show Tables inside Database [show tables;]
+    - Show data inside of wp_comments [select * from wp_comments;]
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/03025b64-faf2-43ad-b297-56a28a495c77/Untitled.png)
+        
+- Adding simple form
+    - Install a plugin in wordpress for getting entries (Forminator)
+    - Configure a form in Wordpress
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/c3a9a12f-dcee-4f82-b106-cad3ed2e10bb/Untitled.png)
+        
+    - Now add form block in editor mode and select the form you made
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/ae3d7ee3-ca1c-4101-a9d0-5f7aef163ac4/Untitled.png)
+        
+    - Now the SQL database will be updated with all entries on the form
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/49ab3fe3-4396-4038-a8fc-2765df08c481/Untitled.png)
+        
+
+## Day 10
+
+- CI/CD (Continuous Integration/ Continuous Delivery)
+    - Basic Flow of CI/CD
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/69463c13-f462-4d12-8ce9-ec2b343a3e53/Untitled.jpeg)
+        
+    - AWS components used for CI/CD Pipelining
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e8958365-8e21-4d3d-9f00-c970c08b108e/Untitled.jpeg)
+        
+    - Setup VPC, Subnets to create isolated safe environment for CI/CD
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/2a2723e3-d341-452e-97bb-44510da95300/Untitled.jpeg)
+        
+- AWS CodeCommit
+    - It is a source control service used to host private Git repositories
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/bd2d9e87-b32e-4e7f-b797-36b0a8948753/Untitled.png)
+        
+- AWS CodeBuild
+    - It compiles source code, runs tests, and produces ready-to-deploy software packages
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/3d7b349a-ee77-464c-9cdc-2ab6a88ab7b1/Untitled.png)
+        
+- AWS CodePipeline
+    - It is a fully managed continuous delivery service that helps you automate your release pipelines
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/118c9bc2-a06f-414a-a829-f78bf77cc189/Untitled.jpeg)
+        
+- AWS CodeDeploy
+    - It automates software deployments to various compute services such as EC2, ECS, Lambda, on-premises servers
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/b8dd8634-d756-42ff-b54a-d341a670e1f2/Untitled.png)
+        
+- AWS Elastic Container Registry
+    - It deploys application images and artifacts anywhere
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/94f1d8d7-cf96-4ed6-93a8-760f2b748e27/Untitled.png)
+        
+- AWS CodeStar
+    - It is used to develop, build, and deploy applications on AWS
+    - Unified user interface enables user to easily manage software development activities in one place
+
+## Day 11
+
+- Add Video to Wordpress
+    - Uploaded some GIFs as mp4.
+    - Add video blocks in editor mode and set all gifs to autoplay, loop and muted
+    - As a video file was bigger in size than maximum upload size of wordpress use plugin ‘Big File Uploads’
+    - Now you can increase the upload size limit to your choice and upload bigger size videos
+- Display form submissions in mysql
+    - USE wp; > show tables; > select * from wp_frmy_form_entry_meta;
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/8bafa280-2ad8-4d1b-8ad2-0f34f6e7b48b/Untitled.png)
+        
+- Git
+    - Install and configure git in windows terminal
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/6513e151-ae4d-48f3-a4f6-753e8a20b625/Untitled.png)
+        
+
+## Day 12
+
+- AWS Lambda
+    - Create a new function in lambda
+    - Name function and choose your preferred programing language
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/356ef67c-bddf-4a6e-8345-f4387dc446d4/Untitled.png)
+        
+    - Write your code in Code Source
+    - To configure a test event, choose test
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/698eb5dd-fd5f-4e46-98b2-03587c769a81/Untitled.png)
+        
+    - For result click save and it will show results in Code source
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e9144d29-2c05-4c0b-a6ed-9e4d61e4d51f/Untitled.png)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a93ec170-9a98-452a-bfc4-e574dfb3c06c/Untitled.png)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/f9ea3cd9-dca8-4c9c-84b1-fd1eb3459034/Untitled.png)
+        
+    - To invoke the function choose test
+    - We can also see your metrics in AWS lambda dashboard
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/26bb0ffe-797c-4304-b2b3-3af760fbe63a/Untitled.png)
+        
+
+## Day 13
+
+- Linux Introduction
+    - Linux is an open-source, community-developed operating system with the kernel at its core, alongside other tools, applications, and services.
+    - At the core of every Linux system is the kernel.
+    - Kernel takes care of the following:
+        - **Memory Management** – The kernel keeps track of memory usage by various applications on the system.
+        - **Device Management** – It also manages various devices that are connected to the system, such as input and output devices.
+        - **Process Management** – The kernel manages running
+        processes in order to avoid conflicts and deadlocks and also for the
+        optimal functioning of the system.
+        - **System Calls and Security** – The kernel receives and handles requests for service from the processes.
+- Linux Boot Process
+    - The booting process takes the following 4 steps:
+        - BIOS Integrity check (POST): When the Linux system powers up, the BIOS (Basic Input Output System) kicks in and performs a Power On Self Test (POST). This is an integrity check that performs a plethora of diagnostic checks.
+        - The Bootloader (GRUB2): GRUB2 stands for GRand Unified Bootloader version 2. It allows you to select the Linux kernel version that you’d want to use.
+        - Kernel Initialization: Upon self-extracting, the selected kernel mounts the root file system and initializes the /sbin/init program commonly referred to as init. Init is always the first program to be executed and is assigned the process ID or PID of 1. It’s the init process that spawns various daemons & mounts all partitions that are specified in the /etc/fstab file.
+        - Starting Systemd: Systemd is the mother of all Linux processes and manages among other things mounting of file systems, starting and stopping services etc.
+    - Linux Directory Structure Diagram
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/67b1ae08-cdc0-480e-9b41-2efb96ba3bfa/Untitled.png)
+        
+- Linux Commands
+    - [`ls Command` – List Files and Directories in Linux](https://www.tecmint.com/15-basic-ls-command-examples-in-linux/)
+        - Syntax - `$ ls [ options ] /path/to/directory`
+            
+            
+            | ls -m | Lists directory contents separated by a comma |
+            | --- | --- |
+            | ls -Q | Displays directory contents enclosed by quotation marks |
+            | ls -l | Displays files in a long-list format |
+            | ls -lh | Display file size in a human-readable format |
+            | ls -g | Omits group ownership column |
+            | ls -F | Adds a forward slash to directories |
+            | ls -i | Display inode number of files and directories |
+            | ls -a | Display all files including hidden files |
+            | ls *. | Filters files according to the file extension |
+            | ls -la | Displays all files and directories in long list format |
+            | ls -R | Display files and directories recursively |
+            | ls -r | Sort Files in reverse |
+            | ls -X | Sort files alphabetically by file extension |
+            | ls -tl | Display files according to file creation date and time |
+            | ls -n | List UIDs and GIDs |
+    - [`cd Command` – Switch Between Directories in Linux](https://www.tecmint.com/cd-command-in-linux/)
+    - [`pwd Command` – Check Current Working Directory in Linux](https://www.tecmint.com/pwd-command-examples/)
+    - [`dir Command` – List Contents of a Directory in Linux](https://www.tecmint.com/linux-dir-command-usage-with-examples/)
+    - [`mkdir Command` – Create New Directories in Linux](https://www.tecmint.com/mkdir-command-examples/)
+        - Syntax - `$ mkdir [OPTIONS] ... <DIRECTORY1> <DIRECTORY2> ...`
+            
+            
+            | mkdir rpm-distros/{alma,centos,fedora} | Create Multiple Directories Using the Brace Expansion |
+            | --- | --- |
+            | mkdir -p rpm-distros/centos/8.x/8.1/8.1-1911 | Create a Nested Sub-Directory Structure |
+            | mkdir -m 777 dir-1 || mkdir -m a=rwx dir-2 | Create a Directory with Permissions |
+            | mkdir -p -v dir-1/dir-2/dir-3/dir-4/dir-5 | Enable Verbose with mkdir Command |
+    - [`rmdir Command` – Delete Directories in Linux](https://www.tecmint.com/rmdir-command-examples/)
+    - [`mv Command` – Rename or Move Files and Directories in Linux](https://www.tecmint.com/mv-command-linux-examples/)
+        - Syntax - `$ mv [OPTIONS] <SOURCE> <DEST>` / `$ mv [OPTIONS] <SOURCE-1> <SOURCE-2> ... <DIRECTORY>`
+            
+            
+            | mv --backup=numbered -v file-1.txt file-2.txt | Create a Backup Before Overwriting Files |
+            | --- | --- |
+    - [`cp Command` – Copy Files and Directories in Linux](https://www.tecmint.com/cp-command-examples/)
+        - Syntax - `$ cp [OPTIONS] <SOURCE> <DEST>` / `$ cp [OPTIONS] <SOURCE-1> <SOURCE-2> ... <DIRECTORY>`
+            
+            
+            | cp -v file-1.txt file-2.txt file-3.txt dir-1 | Copy Multiple Files to a Directory |
+            | --- | --- |
+            | cp -n -v file-1.txt file-2.txt | To Avoid Overwriting the File |
+            | cp -i file-1.txt file-2.txt | To Overwrite the File with Confirmation |
+            | cp --backup=numbered -v file-1.txt file-2.txt | To Backup File Before Overwriting |
+            | cp -p -v file-1.txt file-6.txt | To Preserve the File Attributes |
+            | cp -r -v dir-1 dir-3 | To Copy all files and Sub-Directories of a Directory |
+            | cp -t dir-4 -r -v dir-1 dir-3 | To Copy Multiple Directories, -t allows to specify destination directory |
+    - [`touch Command` – Create New Files in Linux](https://www.tecmint.com/8-pratical-examples-of-linux-touch-command/)
+        - Syntax - `# touch [file name]`
+            
+            
+            | touch -a | change the access time only |
+            | --- | --- |
+            | touch -c | if the file does not exist, do not create it |
+            | touch -d | update the access and modification times |
+            | touch -m | change the modification time only |
+            | touch -r | use the access and modification times of the file |
+            | touch -t | creates a file using a specified time |
+    - [`find Command` – Find Files and Directories in Linux](https://www.tecmint.com/35-practical-examples-of-linux-find-command/)
+    - [`cat Command` – List Contents of Files in Linux](https://www.tecmint.com/13-basic-cat-command-examples-in-linux/)
+    - [`df Command` – Check Linux File System Disk Space Usage](https://www.tecmint.com/how-to-check-disk-space-in-linux/)
+    - [`du Command` – Check Disk Usage of Files and Directories](https://www.tecmint.com/check-linux-disk-usage-of-files-and-directories/)
+    - [`tar Command` – Create, Extract, and List Archive Files in Linux](https://www.tecmint.com/tar-command-examples-linux/)
+    - [`grep Command` – Find Patterns or Strings in Text Files](https://www.tecmint.com/12-practical-examples-of-linux-grep-command/)
+    - [`ln Command` – Create Hard and Symbolic Links in Linux](https://www.tecmint.com/create-hard-and-symbolic-links-in-linux/)
+    - [`alias Command` – Create Alias (Shortcuts) in Linux](https://www.tecmint.com/create-alias-in-linux/)
+    - [`echo Command` – How to Print Line of Text in Linux](https://www.tecmint.com/echo-command-in-linux/)
+    - [`tail Command` – Print Last 10 Lines of File in Linux](https://www.tecmint.com/tail-command-linux/)
+    - [`top Command` – List Running Processes in Linux](https://www.tecmint.com/12-top-command-examples-in-linux/)
+    - [`ps Command` – List Running Processes with PIDs in Linux](https://www.tecmint.com/ps-command-examples-for-linux-process-monitoring/)
+    - [`kill Command` – Kill Running Processes with PIDs in Linux](https://www.tecmint.com/how-to-kill-a-process-in-linux/)
+    - [`uniq Command` – Remove Duplicate Lines in Linux](https://www.tecmint.com/remove-duplicate-lines-linux-files/)
+
+## Day 14
+
+- Completed AWS Skill Builder Courses:
+    - Amazon EC2 Basics
+    - Introduction to AWS Identity and Access Management (IAM)
+    - AWS Identity and Access Management (IAM) - Troubleshooting
+
+## Day 15
+
+- Completed AWS Skill Builder Courses:
+    - AWS Cloud Practitioner Essentials
+
+## Day 16
+
+- Completed AWS Skill Builder Courses:
+    - Build with Amazon EC2
+    - AWS Technical Essentials
+
+## Day 17
+
+- Completed AWS Skill Builder Courses:
+    - AWS Security Fundamentals Second Edition
+    - AWS Security Best Practices: Overview
+
+## Day 18
+
+- Git
+    - Git - allows you to version control
+        - git [init] - initializes an empty git repository
+        - git [status] - tells you info of your git repository on your machine
+        - git [branch checkout -b] - master branch is not affected if changes made to branch
+        - git [add] -  to add file to git folder
+        - git [commit -m] - to commit repository on your machine to git for version control, -m message “to remind yourself of the commit”
+    - Configure Git
+        - Configure your local system’s git config file to add your account
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/2c10eb0c-ab67-40e4-a9a3-2f0a0f2092ca/Untitled.png)
+            
+        - Configure your text line editor to something different than vim (default editor)
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a96b2a1a-3c0d-49a1-97e6-1196c42d3ed2/Untitled.png)
+            
+    - Steps to make git repository
+        - Make an empty directory [ mkdir github-demo ]
+        - Open the empty directory [ cd github-demo ]
+        - Initialize this directory into a repository [ git init ]
+        - Make a file abc.html and add to the git repository [ git add abc.html ]
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/19874445-0e67-4913-95f3-db3e4a826260/Untitled.png)
+            
+        - Right now the file is in somewhat of a staging area (last step before commiting to the repository)
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/2e4411f0-68e1-4399-8cfd-2de7c584eb5b/Untitled.png)
+            
+        - Now before we push this to our github we need to make a repository on our github profile with same name
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/5c866619-c973-4ede-afb4-ae18b31db4c3/Untitled.png)
+            
+        - Now define the repository as main branch and remote add it as origin on your github and finally push the repository to your github
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/17635d03-ae2f-4275-8866-7aa980585fd0/Untitled.png)
+            
+        - Now your git is uploaded to github
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e5511c4e-7776-4dcf-b300-a44e80196f65/Untitled.png)
+            
+
+## Day 19
+
+- Cloning Git
+    - Set automatic command line coloring for Git for easy reviewing
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/831ce772-704b-4afa-b210-53101fc8ee0c/Untitled.png)
+        
+    - Cloning from GitHub
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/15ad3513-0365-463f-a4a4-b94d52b6d50c/Untitled.png)
+        
+    - Installing GTK (for this particular project)
+    - Creating a virtual environment
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a4128016-a376-448b-96fa-f09689fa456c/Untitled.png)
+        
+    - Installing requirements provided in git we cloned
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/854cb86f-4196-47f0-b015-300d72ed44a8/Untitled.png)
+        
+    - Now you can Run the cloned repository on your system
+- Git Branch and Merge
+    - Create a new branch in your Git repository
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/47f5d5ec-5f89-4e04-ad5b-4169f93b3f96/Untitled.png)
+        
+    - List all branches in your repository
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/b0356623-f98c-47bf-ab1a-ed95e2d18c81/Untitled.png)
+        
+    - Switch the branch you are working in
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/0d66f190-b9f5-445e-83e7-55238d9217d2/Untitled.png)
+        
+- Making Changes on a Branch
+    - Make changes to file while in another branch (first-branch)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/08f16143-87ab-4c6a-8ac1-eb95db7702af/Untitled.png)
+        
+    - Push the first-branch
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/761df876-d8ee-4b98-a496-6a8fce6085c8/Untitled.png)
+        
+    - The file will be edited in the first branch but main branch will remain unchanged
+
+## Day 20
+
+- Git logs
+    - View the commit history for the currently active branch
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e63a0162-4c77-448d-ad55-bca288367668/Untitled.png)
+        
+    - show the commits on first-branch that’s not in main
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/34114cfb-68ce-412e-b68a-e5b8c168145a/Untitled.png)
+        
+    - Show the commits that changed file, even across renames
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/fc974e79-12d9-4847-a33b-bbad58db3468/Untitled.png)
+        
+    - Show the difference of what is in first-branch that is not in main
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/1e6e9087-00ab-40ec-86b1-ce025b11e058/Untitled.png)
+        
+    - Show any object in Git in human-readable format using SHA (a 40-character checksum hash that identifies the commit)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/58b71b91-d0ac-4a6d-9fb8-c045540f9da4/Untitled.png)
+        
+- Ignoring Patterns (gitignore)
+    - Preventing unintentional staging or commiting of files
+    - Save a file with desired patterns as .gitignore with direct string matches
+    - System wide ignore pattern for all local repositories [git config --global core.excludesfile file]
+- Sharing and Updating
+    - To add a git repository as an alias
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/6dffe350-4703-45f2-8096-c587db597207/Untitled.png)
+        
+    - Instead of writing the whole url now you can access the git branches by just the alias (kotatsu)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/7dc2f12e-fac3-4e83-a7c5-6404568c6044/Untitled.png)
+        
+    - Merge a remote branch into your current branch to bring it up to date
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/97404ca8-b408-44d3-86f3-a5816039ac0f/Untitled.png)
+        
+    - Transmit local branch commits to the remote repository branch
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/738b4bc6-19ca-4787-a779-645696172626/Untitled.png)
+        
+    - Fetch and merge any commits from the tracking remote branch
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/8dd5c099-7894-4c74-abd7-8734c8ab90b1/Untitled.png)
+        
+- Rewriting and clearing Staged area
+    - Apply any commits of current branch ahead of specified one
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/acc59240-4c5c-4b80-a66c-765b9cf18d49/Untitled.png)
+        
+    - Restore files from staged area
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/f95a0e40-84ae-493f-8c9a-6e2439e319d7/Untitled.png)
+        
+- Temporary Commits
+    - Save modified and staged changes
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/1c8daf8e-c6b5-4351-957c-02cb75324af8/Untitled.png)
+        
+    - List stack-order of stashed file changes
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/0b3e685c-4dd7-4a1d-a3d3-38f5b1933702/Untitled.png)
+        
+    - Write working from top of stash stack
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/ef0bb581-9b71-46fc-be16-27bf062cf5e7/Untitled.png)
+        
+    - Discard the changes from top of stash stack
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e9a20a1d-8de9-491a-9952-bcabc9480ee3/Untitled.png)
+        
+
+## Day 21
+
+- Working of Git internally
+    - Different states of a file (according to git)
+        - Untracked — You create a brand new file called `names.txt` in your project. The file is now in untracked state
+        - Staged — You execute command git add `names.txt` . Now the file is staged
+        - Committed — You execute `commit -m "names file added"` . Now the change is committed
+        - Modified — You add the text hello world to the file and save the file. Now the file is modified
+        - When you execute `git add names.txt` the file will be staged and the cycle continues.
+    - The four areas of Git
+        - Working directory — When a file is untracked or modified, its changes are stored in the working directory
+        - Index — When a file is staged, its changes are stored in the index
+        - Repository — When changes in a file are committed its stored in the repository
+        - git init
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/b2d4cfde-5d3e-4f9a-b5ce-3094fb284f08/Untitled.png)
+            
+        - Saved file locally/working directory
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/29a2a5d3-0721-420f-b956-a443773d1e12/Untitled.png)
+            
+        - Added file to Index/Staging area
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/0ab3a8c2-c58c-4d24-b624-f4adabf4a9fb/Untitled.png)
+            
+        - A commit records the changes that were staged when the commit was made. In this case, the changes that this commit recorded are creation of the file and adding 3 names to it. It also stores a reference to its parent commit
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/8a26a704-05f6-4b77-9345-2d9a273150d0/Untitled.png)
+            
+        - Master is the branch which was created by default when we initialized a new repository. A branch is simply a pointer that points at a particular commit. By default, the branch will always point at the latest commit made in it.
+        - HEAD is a pointer that points to a particular commit. By default HEAD is attached to the current branch pointer. In this case, it points at Master
+        - Make changes to file in working directory
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/5448e108-57b1-4185-8671-db07358bf333/Untitled.png)
+            
+        - Staging the working directory will update changes in Index
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/fc6caf29-8fcf-41af-bcae-372cd30bf60f/Untitled.png)
+            
+        - Commit the updated index.
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/0bbd79e7-2ebf-4b8c-a546-b5e5fb7a06df/Untitled.png)
+            
+        - `git checkout b5cdeb1` - This command will move the head to the previous commit. When the HEAD moves to a different commit, both the index and the working directory is updated to reflect the state of the files up to that commit
+        - HEAD is now in detached state. That means it is not attached to any branch
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a35a1c88-cd3e-4295-bb03-08f4c3d196d5/Untitled.png)
+            
+        - Both the index and the working directory are updated to the state of the repository by that particular commit. Now, if you open names.txt it will say Mary instead of Raj
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/0f9f26b7-4abb-48a7-bc3b-0a93ee6076cb/Untitled.png)
+            
+        - both `git checkout Master` and `git checkout ef56264` will point the HEAD to the same commit. But with the second command, the HEAD is still detached. In git checkout Master you attach the HEAD to the branch pointer so that it moves with it when new commits are added to the branch.
+    - Understand how stash work
+        - All four areas of git fullName is a branch
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/4ef4d81a-7c01-40d5-aa2e-9c25aafe63d2/Untitled.png)
+            
+        - You remember that there is some urgent work to be done at the branch fullName and you have to checkout to that.
+            
+            As we saw earlier when we checkout to a branch, both the index and the working directory are updated to the state of its latest commit. We would lose all the uncommitted changes in Master. We don’t want to commit unfinished work either.
+            
+            The stash is a place where you can temporarily save uncommitted files both in the working directory and the index. `git stash`
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/a74fd530-44de-43c7-94f1-68219ce77ae5/Untitled.png)
+            
+        - `git stash pop` - This command will remove the items from the stash and apply to the index and working directory.
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/033dc822-a78b-4e25-a065-a5178e0e99e3/Untitled.png)
+            
+    - Git rebase
+        - Rebasing is the process of moving or combining a sequence of commits to a new base commit
+    - Rebase v/s Merge
+        - Consider what happens when you start working on a new feature in a dedicated branch, then another team member updates the main branch with new commits. This results in a forked history.Now, let’s say that the new commits in main are relevant to the feature that you’re working on. To incorporate the new commits into your feature branch, you have two options: merging or rebasing.
+            
+            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/46c44150-ae6a-4dd6-93ba-2309ee4f0acf/Untitled.png)
+            
+        
+        | This creates a new “merge commit” in the feature branch that ties together the histories of both branches, giving you a branch structure that looks like this: | This moves the entire feature branch to begin on the tip of the main branch, effectively incorporating all of the new commits in main. But, instead of using a merge commit, rebasing re-writes the project history by creating brand new commits for each commit in the original branch. |
+        | --- | --- |
+        | Merging is nice because it’s a non-destructive operation. The existing branches are not changed in any way. | The major benefit of rebasing is that you get a much cleaner project history. First, it eliminates the unnecessary merge commits required by git merge. Second, as you can see in the above diagram, rebasing also results in a perfectly linear project history—you can follow the tip of feature all the way to the beginning of the project without any forks. This makes it easier to navigate your project with commands like git log, git bisect, and gitk |
+        | This also means that the feature branch will have an extraneous merge commit every time you need to incorporate upstream changes. If main
+        is very active, this can pollute your feature branch’s history quite a
+        bit. While it’s possible to mitigate this issue with advanced git log options, it can make it hard for other developers to understand the history of the project. | There are two trade-offs for this pristine commit history: safety and traceability. If you don’t follow the Golden Rule of Rebasing, re-writing project history can be potentially catastrophic for your collaboration workflow. And, less importantly, rebasing loses the context provided by a merge commit—you can’t see when upstream changes were incorporated into the feature. |
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e991b099-1bd6-4659-9385-936761ae8138/Untitled.png)
+        
+        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/19074c9a-5951-44af-9909-4dbef76d00b5/e924a792-ac21-46a2-92b6-61c28cc26ab9/Untitled.png)
